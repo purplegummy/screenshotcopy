@@ -1,39 +1,27 @@
 {
   "manifest_version": 3,
-  "name": "Screenshot to ChatGPT",
-  "description": "Capture the current tab and push the screenshot directly into a ChatGPT tab.",
-  "version": "0.1.0",
-  "permissions": ["tabs", "scripting", "storage", "commands", "activeTab"],
-  "host_permissions": ["https://chatgpt.com/*", "https://chat.openai.com/*"],
+  "name": "ChatGPT Quick Send",
+  "description": "Send screenshots and text to ChatGPT with customizable keybinds for different chats.",
+  "version": "0.2.0",
+  "permissions": ["tabs", "scripting", "storage", "activeTab"],
+  "host_permissions": ["https://chatgpt.com/*", "https://chat.openai.com/*", "<all_urls>"],
   "background": {
     "service_worker": "background.js"
   },
   "action": {
-    "default_title": "Send screenshot to ChatGPT",
+    "default_title": "ChatGPT Quick Send",
     "default_popup": "popup.html"
-  },
-  "commands": {
-    "capture-screenshot": {
-      "suggested_key": {
-        "default": "Ctrl+Shift+S",
-        "mac": "MacCtrl+Shift+S"
-      },
-      "description": "Capture the active tab and upload it to ChatGPT"
-    },
-    "capture-text": {
-      "suggested_key": {
-        "default": "Ctrl+Shift+C",
-        "mac": "MacCtrl+Shift+C"
-      },
-      "description": "Send selected text to ChatGPT"
-    }
   },
   "content_scripts": [
     {
       "matches": ["https://chatgpt.com/*", "https://chat.openai.com/*"],
       "js": ["contentScript.js"],
       "run_at": "document_idle"
+    },
+    {
+      "matches": ["<all_urls>"],
+      "js": ["keybindListener.js"],
+      "run_at": "document_start"
     }
   ]
 }
-

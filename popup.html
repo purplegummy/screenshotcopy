@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Send to ChatGPT</title>
+    <title>ChatGPT Quick Send</title>
     <link rel="stylesheet" href="popup.css" />
   </head>
   <body>
@@ -16,45 +16,50 @@
 
       <!-- Main Panel -->
       <div id="main-panel">
-        <p class="subtitle">Send screenshots or text to ChatGPT instantly</p>
+        <p class="subtitle">Press your keybinds anywhere to capture</p>
         
-        <div class="buttons">
-          <button id="capture-button">
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+          <button id="capture-new-btn" class="action-btn green">
             <span class="btn-icon">📷</span>
-            <span class="btn-text">Send Screenshot</span>
+            <span>New Chat + Screenshot</span>
           </button>
-          <button id="text-button">
+          <button id="text-new-btn" class="action-btn purple">
             <span class="btn-icon">📝</span>
-            <span class="btn-text">Send Selected Text</span>
+            <span>New Chat + Text</span>
           </button>
         </div>
 
-        <div class="shortcuts-display">
-          <div class="shortcut-row">
-            <span>Screenshot</span>
-            <kbd id="shortcut-screenshot">Ctrl+Shift+S</kbd>
-          </div>
-          <div class="shortcut-row">
-            <span>Selected Text</span>
-            <kbd id="shortcut-text">Ctrl+Shift+C</kbd>
-          </div>
+        <!-- Keybind Slots Preview -->
+        <div class="slots-preview">
+          <h3>Your Keybinds</h3>
+          <div id="slots-list"></div>
+          <button id="manage-slots-btn" class="link-btn">Manage keybinds →</button>
         </div>
 
         <div id="status"></div>
       </div>
 
+      <!-- Keybinds Panel -->
+      <div id="keybinds-panel" class="hidden">
+        <div class="panel-header">
+          <button id="back-from-keybinds" class="back-btn">←</button>
+          <h2>Keybind Slots</h2>
+          <button id="add-slot-btn" class="icon-btn" title="Add slot">➕</button>
+        </div>
+        
+        <p class="panel-desc">Each slot can be bound to a different ChatGPT conversation</p>
+        
+        <div id="keybind-slots-editor"></div>
+      </div>
+
       <!-- Settings Panel -->
       <div id="settings-panel" class="hidden">
-        <h2>Settings</h2>
-        
-        <div class="setting-group">
-          <h3>⌨️ Keyboard Shortcuts</h3>
-          <p class="setting-desc">Customize your shortcuts in Chrome settings</p>
-          <button id="open-shortcuts" class="secondary-btn">
-            Open Shortcut Settings
-          </button>
+        <div class="panel-header">
+          <button id="back-from-settings" class="back-btn">←</button>
+          <h2>Settings</h2>
         </div>
-
+        
         <div class="setting-group">
           <h3>🚀 Behavior</h3>
           
@@ -69,26 +74,31 @@
             <input type="checkbox" id="show-notifications" checked />
             <span class="toggle-slider"></span>
           </label>
-
-          <label class="toggle-setting">
-            <span>Switch to ChatGPT tab</span>
-            <input type="checkbox" id="switch-tab" checked />
-            <span class="toggle-slider"></span>
-          </label>
         </div>
 
         <div class="setting-group">
-          <h3>🎯 Target</h3>
+          <h3>🎯 Default Target</h3>
           <select id="target-url">
             <option value="https://chatgpt.com/">ChatGPT (chatgpt.com)</option>
             <option value="https://chat.openai.com/">ChatGPT (chat.openai.com)</option>
           </select>
         </div>
-
-        <button id="back-btn" class="secondary-btn">← Back</button>
       </div>
     </div>
+
+    <!-- Keybind Capture Modal -->
+    <div id="keybind-modal" class="modal hidden">
+      <div class="modal-content">
+        <h3>Press your keybind</h3>
+        <p>Press any key combination...</p>
+        <div id="keybind-preview" class="keybind-display">Waiting...</div>
+        <div class="modal-buttons">
+          <button id="cancel-keybind" class="secondary-btn">Cancel</button>
+          <button id="save-keybind" class="primary-btn" disabled>Save</button>
+        </div>
+      </div>
+    </div>
+
     <script src="popup.js"></script>
   </body>
 </html>
-

@@ -1,21 +1,19 @@
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-  margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   color: #1a1a1a;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  min-height: 100%;
+  background: #f5f5f5;
+  min-width: 360px;
 }
 
 .container {
-  width: 320px;
-  padding: 0;
   background: #fff;
-  border-radius: 12px;
-  overflow: hidden;
+  min-height: 400px;
 }
 
 /* Header */
@@ -23,14 +21,13 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px 16px 12px;
+  padding: 16px;
   background: linear-gradient(135deg, #10a37f 0%, #0d8a6a 100%);
   color: white;
 }
 
 .header h1 {
   font-size: 16px;
-  margin: 0;
   font-weight: 600;
 }
 
@@ -41,34 +38,72 @@ body {
   width: 32px;
   height: 32px;
   cursor: pointer;
-  font-size: 16px;
-  transition: background 0.2s;
+  font-size: 14px;
+  transition: all 0.2s;
+  color: white;
 }
 
 .icon-btn:hover {
   background: rgba(255,255,255,0.3);
+  transform: scale(1.05);
 }
 
-/* Main Panel */
-#main-panel, #settings-panel {
+/* Panels */
+#main-panel, #keybinds-panel, #settings-panel {
   padding: 16px;
 }
 
 .subtitle {
   font-size: 13px;
   color: #666;
-  margin: 0 0 16px 0;
   text-align: center;
-}
-
-.buttons {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
   margin-bottom: 16px;
 }
 
-.buttons button {
+/* Panel Header */
+.panel-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.panel-header h2 {
+  flex: 1;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.back-btn {
+  background: #f0f0f0;
+  border: none;
+  border-radius: 8px;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.2s;
+}
+
+.back-btn:hover {
+  background: #e0e0e0;
+}
+
+.panel-desc {
+  font-size: 12px;
+  color: #888;
+  margin-bottom: 16px;
+}
+
+/* Quick Actions */
+.quick-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.action-btn {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -81,31 +116,25 @@ body {
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s;
+  color: white;
 }
 
-#capture-button {
+.action-btn.green {
   background: linear-gradient(135deg, #10a37f 0%, #0d8a6a 100%);
-  color: white;
   box-shadow: 0 4px 12px rgba(16, 163, 127, 0.3);
 }
 
-#capture-button:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(16, 163, 127, 0.4);
-}
-
-#text-button {
+.action-btn.purple {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
   box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
 }
 
-#text-button:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
+.action-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.2);
 }
 
-button:disabled {
+.action-btn:disabled {
   opacity: 0.6;
   cursor: not-allowed;
   transform: none !important;
@@ -115,89 +144,208 @@ button:disabled {
   font-size: 18px;
 }
 
-/* Shortcuts Display */
-.shortcuts-display {
+/* Slots Preview */
+.slots-preview {
   background: #f8f9fa;
-  border-radius: 10px;
-  padding: 12px;
-  margin-bottom: 12px;
+  border-radius: 12px;
+  padding: 14px;
 }
 
-.shortcut-row {
+.slots-preview h3 {
+  font-size: 13px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+#slots-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.slot-preview-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 6px 0;
-  font-size: 13px;
+  padding: 8px 10px;
+  background: white;
+  border-radius: 8px;
+  font-size: 12px;
+}
+
+.slot-preview-item .slot-name {
   color: #555;
+  flex: 1;
 }
 
-.shortcut-row:not(:last-child) {
-  border-bottom: 1px solid #eee;
-}
-
-kbd {
+.slot-preview-item .slot-keybind {
   background: linear-gradient(180deg, #fff 0%, #f0f0f0 100%);
   border: 1px solid #d0d0d0;
-  border-radius: 6px;
-  padding: 4px 8px;
+  border-radius: 4px;
+  padding: 3px 8px;
   font-size: 11px;
   font-family: "SF Mono", Monaco, monospace;
-  box-shadow: 0 2px 0 #c0c0c0;
+  box-shadow: 0 1px 0 #c0c0c0;
 }
 
-/* Status */
-#status {
+.link-btn {
+  background: none;
+  border: none;
+  color: #10a37f;
   font-size: 12px;
-  min-height: 1.4em;
-  color: #666;
-  text-align: center;
-  padding: 4px;
-  border-radius: 6px;
+  cursor: pointer;
+  padding: 4px 0;
+  transition: color 0.2s;
 }
 
-#status.success {
-  background: #d4edda;
-  color: #155724;
+.link-btn:hover {
+  color: #0d8a6a;
+  text-decoration: underline;
 }
 
-#status.error {
-  background: #f8d7da;
-  color: #721c24;
+/* Keybind Slots Editor */
+#keybind-slots-editor {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
-/* Settings Panel */
-#settings-panel h2 {
+.slot-card {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 14px;
+  border: 1px solid #eee;
+}
+
+.slot-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.slot-name-input {
+  font-size: 14px;
+  font-weight: 500;
+  background: transparent;
+  border: none;
+  border-bottom: 1px dashed transparent;
+  padding: 2px 0;
+  width: 180px;
+}
+
+.slot-name-input:hover,
+.slot-name-input:focus {
+  border-bottom-color: #10a37f;
+  outline: none;
+}
+
+.delete-slot-btn {
+  background: none;
+  border: none;
+  color: #dc3545;
+  cursor: pointer;
   font-size: 16px;
-  margin: 0 0 16px 0;
-  color: #333;
+  padding: 4px;
+  opacity: 0.6;
+  transition: opacity 0.2s;
 }
 
+.delete-slot-btn:hover {
+  opacity: 1;
+}
+
+.slot-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.slot-option {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.slot-option label {
+  font-size: 11px;
+  color: #666;
+  text-transform: uppercase;
+}
+
+.slot-option select {
+  padding: 8px 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 13px;
+  background: white;
+  cursor: pointer;
+}
+
+.slot-option select:focus {
+  outline: none;
+  border-color: #10a37f;
+}
+
+.slot-keybind-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.keybind-display {
+  flex: 1;
+  padding: 10px 14px;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-family: "SF Mono", Monaco, monospace;
+  font-size: 13px;
+  text-align: center;
+}
+
+.keybind-display.empty {
+  color: #999;
+  font-style: italic;
+}
+
+.change-keybind-btn {
+  padding: 10px 14px;
+  background: #10a37f;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.change-keybind-btn:hover {
+  background: #0d8a6a;
+}
+
+/* Settings */
 .setting-group {
   margin-bottom: 20px;
   padding-bottom: 16px;
   border-bottom: 1px solid #eee;
 }
 
-.setting-group:last-of-type {
+.setting-group:last-child {
   border-bottom: none;
-  margin-bottom: 12px;
+  margin-bottom: 0;
 }
 
 .setting-group h3 {
   font-size: 13px;
   font-weight: 600;
-  margin: 0 0 8px 0;
+  margin-bottom: 12px;
   color: #333;
 }
 
-.setting-desc {
-  font-size: 12px;
-  color: #888;
-  margin: 0 0 10px 0;
-}
-
-/* Toggle Switch */
 .toggle-setting {
   display: flex;
   justify-content: space-between;
@@ -241,8 +389,7 @@ kbd {
   transform: translateX(20px);
 }
 
-/* Select Dropdown */
-select {
+.setting-group select {
   width: 100%;
   padding: 10px 12px;
   border: 1px solid #ddd;
@@ -252,39 +399,105 @@ select {
   cursor: pointer;
 }
 
-select:focus {
-  outline: none;
-  border-color: #10a37f;
+/* Status */
+#status {
+  margin-top: 12px;
+  font-size: 12px;
+  min-height: 1.4em;
+  color: #666;
+  text-align: center;
+  padding: 4px 8px;
+  border-radius: 6px;
 }
 
-/* Secondary Button */
-.secondary-btn {
-  width: 100%;
-  padding: 10px 16px;
-  background: #f0f0f0;
-  color: #333;
-  border: none;
+#status.success {
+  background: #d4edda;
+  color: #155724;
+}
+
+#status.error {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+/* Modal */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  padding: 24px;
+  border-radius: 16px;
+  width: 280px;
+  text-align: center;
+}
+
+.modal-content h3 {
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.modal-content p {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 16px;
+}
+
+.modal-content .keybind-display {
+  margin-bottom: 20px;
+  padding: 16px;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.modal-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.modal-buttons button {
+  flex: 1;
+  padding: 10px;
   border-radius: 8px;
   font-size: 13px;
   cursor: pointer;
-  transition: background 0.2s;
+  border: none;
+}
+
+.secondary-btn {
+  background: #f0f0f0;
+  color: #333;
 }
 
 .secondary-btn:hover {
   background: #e0e0e0;
 }
 
-#open-shortcuts {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+.primary-btn {
+  background: #10a37f;
   color: white;
 }
 
-#open-shortcuts:hover {
-  opacity: 0.9;
+.primary-btn:hover {
+  background: #0d8a6a;
 }
 
-/* Hidden class */
+.primary-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+/* Hidden */
 .hidden {
   display: none !important;
 }
-
